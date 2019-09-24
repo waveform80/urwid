@@ -9,7 +9,7 @@ XVFB=$(which Xvfb)
 if [ -n $XVFB ]; then
 	Xvfb :$DISPLAYNUM -screen 0 1024x768x24 &
 	XVFBPID=$!
-	DISPLAY=:$DISPLAYNUM # this still doesn't work
+	export DISPLAY=:$DISPLAYNUM
 	trap "kill $XVFBPID" EXIT
 fi
 
