@@ -28,6 +28,7 @@ import heapq
 import select
 import os
 import io
+import errno
 import signal
 import sys
 from functools import wraps
