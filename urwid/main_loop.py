@@ -27,6 +27,7 @@ import time
 import heapq
 import select
 import os
+import io
 import signal
 import sys
 from functools import wraps
@@ -1584,7 +1585,9 @@ class ZMQEventLoop(EventLoop):
             The condition to monitor on the file (defaults to ``POLLIN``).
         """
         if isinstance(fd, int):
-            fd = os.fdopen(fd)
+            # XXX Ideally, in Python 3 this would be a call to os.fdopen but we
+            # use io.open to support Python 2 easily
+            fd = io.open(fd, {1: 'rb', 2: 'wb', 3: 'r+b'}[flags], closefd=False)
         self._poller.register(fd, flags)
         self._queue_callbacks[fd.fileno()] = callback
         return fd
